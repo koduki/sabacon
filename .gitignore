@@ -1,3 +1,9 @@
+# Ignore app results dir.
+/submissions
+/public/reports/
+/public/assets/
+/resources/
+
 # Ignore bundler config.
 /.bundle
 

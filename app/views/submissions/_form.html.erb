@@ -1,0 +1,48 @@
+<%= form_for @submission, :html => { :class => "form-horizontal submission" } do |f| %>
+
+  <% if @submission.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@submission.errors.count, "error") %> prohibited this submission from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @submission.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :problem, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.collection_select :problem, Problem.all, :id, :name, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:problem) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :repos_url, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :repos_url, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:repos_url) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :tag, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :tag, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:tag) %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                submissions_path, :class => 'btn btn-default' %>
+    </div>
+  </div>
+
+<% end %>

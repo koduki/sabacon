@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  problem: 1
+  repos_url: MyString
+  tag: MyString
+
+two:
+  problem: 1
+  repos_url: MyString
+  tag: MyString

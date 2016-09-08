@@ -12,7 +12,7 @@ RUN apt-get update && \
                        --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-COPY Gemfile $APP_ROOT
+COPY ./Gemfile $APP_ROOT
 #COPY Gemfile.lock $APP_ROOT
 
 RUN \
@@ -26,5 +26,7 @@ RUN \
 
 COPY . $APP_ROOT
 
-EXPOSE  3000
-CMD ["rails", "server", "-b", "0.0.0.0"]
+ADD resources/id_rsa /root/.ssh/id_rsa
+RUN chmod -R g-rwx,o-rwx /root/.ssh 
+
+ENV APP_ROOT /usr/src/app

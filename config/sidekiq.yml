@@ -1,0 +1,4 @@
+:concurrency: 1
+:retry: false
+test:
+  :db: <%= ENV['TEST_ENV_NUMBER'].to_i + 1 %>
