@@ -21,6 +21,8 @@ DATABASE_URL="postgres://postgres:mysecretpassword@postgres-host:5432/postgres"
 DOCKER="docker run -it \
 	--link ${REDIS_ID}:redis \
         --link ${POSTGRES_ID}:postgres-host \
+	-e "RACK_ENV=development" \
+	-e "RAILS_ENV=development" \
 	-e "REDIS_URL=redis://redis:6379" \
 	-e "DATABASE_URL=${DATABASE_URL}" \
 	-e "AWS_ACCESS_KEY=${AWS_ACCESS_KEY}" \
