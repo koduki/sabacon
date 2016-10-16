@@ -16,7 +16,7 @@
   <dd><%= @submission.status %></dd>
   <% if @submission.status == 'COMPLETED' %>
   <dt><strong>Details :</strong></dt>
-  <dd><%= link_to "Report ID: #{@submission.id}", "/reports/#{@submission.id}/details/" %></dd>
+  <dd><%= link_to "Report ID: #{@submission.id}", "https://s3-ap-northeast-1.amazonaws.com/sabacon/results/#{@submission.id}/index.html" %></dd>
   <% end %>
 </dl>
 

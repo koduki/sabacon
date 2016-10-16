@@ -11,8 +11,6 @@ module SubmissionModule
     end
 
     def remote_exec user, ip, cmd
-        #server = '172.17.0.2'
-        #user = 'root'
         server = ip
         user = user
         port = 22
@@ -106,6 +104,24 @@ module SubmissionModule
         compute.describe_instance_status(instance_ids:[instance_id]).
         instance_statuses.
         map{|s| s.system_status.status == 'ok'}[0]
+    end
+
+    def upload_s3 key, value
+        access_key = ENV['AWS_ACCESS_KEY']
+        secret_key = ENV['AWS_SECRET_KEY']
+        region = "ap-northeast-1"
+
+        client = Aws::S3::Client.new(
+            :region => region,
+            :access_key_id => access_key,
+            :secret_access_key => secret_key,
+        )
+
+        client.put_object(
+            :bucket => 'sabacon', 
+            :acl => 'public-read',
+            :key    => key, 
+            :body   => value)
     end
 end
 

@@ -50,10 +50,27 @@ class SubmissionRunner
         if r.strip == '0'
             # get report
             remote_cp user, ip, '/var/tmp/report.tar.gz', "#{work_dir}"
-            exec "mkdir -p ./public/reports/#{submission.id}/details && " +
-            " tar xfz #{work_dir}/report.tar.gz -C ./public/reports/#{submission.id}/details && " + 
+            sub_dir = "#{work_dir}/#{submission.id}"
+            exec "mkdir -p #{sub_dir} && " +
+            " tar xfz #{work_dir}/report.tar.gz -C #{sub_dir} && " + 
             " rm report.tar.gz"
-            remote_cp user, ip, "/var/tmp/#{submission_dir}/result.txt", "./public/reports/#{submission.id}/details/"
+
+            # upload to s3
+            files = Dir.glob("#{submission.id}/**/*")
+               .find_all{|f| File::ftype(f) == "file"}
+               .map{|x| x.sub(/.*#{submission.id}\//,"")}
+            files.each{|x| puts x}
+
+            files.each do |f|
+                key = "results/#{submission.id}/#{f}"
+                value = File.open("#{sub_dir}/#{f}")
+                puts "#{key} : #{value}"
+                upload_s3 key, value
+            end
+
+            # clean up
+            sleep(90)
+            exec "rm -rf #{sub_dir}"
 
             # success
             submission.finished = true
@@ -110,7 +127,7 @@ class SubmissionRunner
             where(finished: false).
             each do |x| 
                 run x
-        end
+            end
     end
 end
 

@@ -31,6 +31,7 @@ class SubmissionsController < ApplicationController
       @submission.status = 'QUEUEING'
       if @submission.save
         SubmissionJob.perform_later(@submission)
+        ## for debug
         #SubmissionRunner.new.run @submission
 
         format.html { redirect_to @submission, notice: 'Submission was successfully created.' }
