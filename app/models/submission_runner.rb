@@ -7,7 +7,6 @@ class SubmissionRunner
         c = get_compute
         s = create_server c
         id = s.instances[0].instance_id
-        
         id
     end
 
@@ -47,7 +46,8 @@ class SubmissionRunner
         log "START: stress test"
         senario = problems[submission.problem] 
         r = remote_exec user, ip, "/script/test_target.sh #{senario} #{submission_dir}"
-        if r.strip == '0'
+
+        if r.split(/\n/).last.strip == '0'
             # get report
             remote_cp user, ip, '/var/tmp/report.tar.gz', "#{work_dir}"
             sub_dir = "#{work_dir}/#{submission.id}"
@@ -55,6 +55,12 @@ class SubmissionRunner
             " tar xfz #{work_dir}/report.tar.gz -C #{sub_dir} && " + 
             " rm report.tar.gz"
 
+            # get score
+            score = 0
+            open("#{sub_dir}/score.txt") do |f|
+                score = f.read.to_i
+            end
+            
             # upload to s3
             files = Dir.glob("#{submission.id}/**/*")
                .find_all{|f| File::ftype(f) == "file"}
@@ -63,9 +69,10 @@ class SubmissionRunner
 
             files.each do |f|
                 key = "results/#{submission.id}/#{f}"
-                value = File.open("#{sub_dir}/#{f}")
-                puts "#{key} : #{value}"
-                upload_s3 key, value
+                File.open("#{sub_dir}/#{f}") do |value|
+                    puts "#{key} : #{value}"
+                    upload_s3 key, value
+                end
             end
 
             # clean up
@@ -75,6 +82,7 @@ class SubmissionRunner
             # success
             submission.finished = true
             submission.status = 'COMPLETED'
+            submission.score = score
             submission.save
         else
             p r

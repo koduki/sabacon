@@ -7,7 +7,7 @@
   <dt><strong><%= model_class.human_attribute_name(:id) %>:</strong></dt>
   <dd><%= @submission.id %></dd>
   <dt><strong><%= model_class.human_attribute_name(:problem) %>:</strong></dt>
-  <dd><%= link_to @submission.problem, '/problems' %></dd>
+  <dd><%= link_to Problem.find(@submission.problem).name, '/problems' %></dd>
   <dt><strong><%= model_class.human_attribute_name(:repos_url) %>:</strong></dt>
   <dd><%= repos_link @submission.repos_url, @submission.tag %></dd>
   <dt><strong><%= model_class.human_attribute_name(:tag) %>:</strong></dt>

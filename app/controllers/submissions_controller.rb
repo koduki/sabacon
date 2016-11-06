@@ -30,6 +30,7 @@ class SubmissionsController < ApplicationController
       @submission.tag = 'master' if @submission.tag.empty?
       @submission.status = 'QUEUEING'
       if @submission.save
+        ## for production
         SubmissionJob.perform_later(@submission)
         ## for debug
         #SubmissionRunner.new.run @submission

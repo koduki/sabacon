@@ -7,7 +7,7 @@ class Problem
     end
 
     def self.all
-        [Problem.new(1, 'IsuconBank')]
+        [Problem.new(1, 'いすこん銀行 - Easy')]
     end
 
     def self.find id

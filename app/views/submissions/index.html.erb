@@ -12,10 +12,9 @@
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:problem) %></th>
-      <th><%= model_class.human_attribute_name(:repos_url) %></th>
-      <th><%= model_class.human_attribute_name(:tag) %></th>
+      <th><%= model_class.human_attribute_name(:score) %></th>
       <th><%= model_class.human_attribute_name(:status) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%= model_class.human_attribute_name(:updated_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -23,11 +22,10 @@
     <% @submissions.each do |submission| %>
       <tr>
         <td><%= link_to submission.id, submission_path(submission) %></td>
-        <td><%= link_to submission.problem, '/problems' %></td>
-        <td><%= submission.repos_url %></td>
-        <td><%= submission.tag %></td>
-        <td><%= submission.status %></td>
-        <td><%=l submission.created_at %></td>
+        <td><%= link_to Problem.find(submission.problem).name, '/problems' %></td>
+        <td><%= link_to (submission.score == nil) ? "-" : submission.score , submission_path(submission) %></td>
+        <td><%= link_to submission.status, submission_path(submission) %></td>
+        <td><%= submission.updated_at %></td>
         <td>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       submission_path(submission),

@@ -71,7 +71,7 @@ module SubmissionModule
 
     def create_server compute
         compute.run_instances(
-            image_id:'ami-76c21c17', 
+            image_id:'ami-4e87282f',
             min_count:1, 
             max_count:1, 
             instance_type:'t2.micro', 
