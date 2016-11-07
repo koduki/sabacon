@@ -1,7 +1,7 @@
 Sabacon
 =============
 
-Sabacon is a service perfomance online judge system.
+Sabacon is a service performance online judge system.
 
 Build image
 -------------
