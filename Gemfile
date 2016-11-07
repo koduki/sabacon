@@ -60,3 +60,6 @@ gem 'resque'
 gem 'sidekiq'
 gem 'sinatra', :require => nil
 gem 'aws-sdk'
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-github'

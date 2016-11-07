@@ -18,17 +18,23 @@ DATABASE_URL="postgres://postgres:mysecretpassword@postgres-host:5432/postgres"
 `cat ~/.aws/credentials_sbacon-api.csv |grep 'sabacon-api'|awk -F',' '{print "export AWS_ACCESS_KEY="$2}'`
 `cat ~/.aws/credentials_sbacon-api.csv |grep 'sabacon-api'|awk -F',' '{print "export AWS_SECRET_KEY="$3}'`
 
+# READ GITHUB KEYS
+GITHUB_KEY=`head -1 ~/.github/passwd`
+GITHUB_SECRET=` -1 ~/.github/passwd`
+
 DOCKER="docker run -it \
-	--link ${REDIS_ID}:redis \
-        --link ${POSTGRES_ID}:postgres-host \
-	-e "RACK_ENV=development" \
-	-e "RAILS_ENV=development" \
-	-e "REDIS_URL=redis://redis:6379" \
-	-e "DATABASE_URL=${DATABASE_URL}" \
-	-e "AWS_ACCESS_KEY=${AWS_ACCESS_KEY}" \
-	-e "AWS_SECRET_KEY=${AWS_SECRET_KEY}" \
-	-v `pwd`:/usr/src/app \
-	-w /usr/src/app"
+  --link ${REDIS_ID}:redis \
+  --link ${POSTGRES_ID}:postgres-host \
+  -e "RACK_ENV=development" \
+  -e "RAILS_ENV=development" \
+  -e "REDIS_URL=redis://redis:6379" \
+  -e "DATABASE_URL=${DATABASE_URL}" \
+  -e "AWS_ACCESS_KEY=${AWS_ACCESS_KEY}" \
+  -e "AWS_SECRET_KEY=${AWS_SECRET_KEY}" \
+  -e "GITHUB_KEY=${GITHUB_KEY}" \
+  -e "GITHUB_SECRET=${GITHUB_SECRET}" \
+  -v `pwd`:/usr/src/app \
+  -w /usr/src/app"
 
 if [ $# -eq 0 ]; then
   cmd="$DOCKER -p 3000:3000 ${IMAGE}"
