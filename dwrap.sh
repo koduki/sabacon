@@ -17,8 +17,6 @@ DATABASE_URL="postgres://postgres:mysecretpassword@postgres-host:5432/postgres"
 # READ AWS AMI KEYS
 `cat ~/.aws/credentials_sbacon-api.csv |grep 'sabacon-api'|awk -F',' '{print "export AWS_ACCESS_KEY="$2}'`
 `cat ~/.aws/credentials_sbacon-api.csv |grep 'sabacon-api'|awk -F',' '{print "export AWS_SECRET_KEY="$3}'`
-echo $AWS_ACCESS_KEY
-echo $AWS_SECRET_KEY
 
 DOCKER="docker run -it \
 	--link ${REDIS_ID}:redis \
