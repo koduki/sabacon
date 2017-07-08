@@ -20,7 +20,7 @@ DATABASE_URL="postgres://postgres:mysecretpassword@postgres-host:5432/postgres"
 
 # READ GITHUB KEYS
 GITHUB_KEY=`head -1 ~/.github/passwd`
-GITHUB_SECRET=` -1 ~/.github/passwd`
+GITHUB_SECRET=`tail -1 ~/.github/passwd`
 
 DOCKER="docker run -it \
   --link ${REDIS_ID}:redis \
@@ -33,7 +33,7 @@ DOCKER="docker run -it \
   -e "AWS_SECRET_KEY=${AWS_SECRET_KEY}" \
   -e "GITHUB_KEY=${GITHUB_KEY}" \
   -e "GITHUB_SECRET=${GITHUB_SECRET}" \
-  -v `pwd`:/usr/src/app \
+  -v `pwd|sed 's@/mnt@@'`:/usr/src/app \
   -w /usr/src/app"
 
 if [ $# -eq 0 ]; then
@@ -46,17 +46,17 @@ elif [ $1 = "worker" ]; then
   cmd="$DOCKER ${IMAGE_JOBQ}"
 elif [ $1 = "build" ]; then
   echo "$IMAGES"|awk -F':' '{print  " echo \"\ndocker build -t "$1" "$2"\"; docker build -t "$1" "$2}'|sh
-	exit
+  exit
 elif [ $1 = "deploy-web" ]; then
   echo "heroku container:push web"
   cd dockerfiles/web/
   heroku container:push web
- 	exit
+  exit
 elif [ $1 = "deploy-worker" ]; then
   echo "heroku container:push worker"
   cd dockerfiles/worker/
   heroku container:push worker
- 	exit
+  exit
 else
   cmd="$DOCKER ${IMAGE} $@"
 fi

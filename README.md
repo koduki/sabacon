@@ -13,6 +13,12 @@ $ docker build -t koduki/sabacon .
 Run app server
 -------------
 
+If postgres isn't running, you need to run.
+
+```bash
+$ docker run -d postgres
+```
+
 If redis isn't running, you need to run.
 
 ```bash
@@ -22,7 +28,7 @@ $ docker run -d redis
 Next, run the jobq worker daemon.
 
 ```bash
-$  ./dwrap.sh jobq
+$ ./dwrap.sh worker
 ```
 
 Finally, run the application.

@@ -56,6 +56,7 @@ gem 'less-rails'
 gem 'therubyracer'
 gem 'execjs'
 gem 'twitter-bootstrap-rails'
+gem 'font-awesome-rails'
 gem 'resque'
 gem 'sidekiq'
 gem 'sinatra', :require => nil

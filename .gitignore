@@ -26,3 +26,7 @@ doc/
 .DS_Store
 .idea
 .secret
+
+# Ignore unmanaged files.
+.device.secretkey
+Gemfile.lock.bak
